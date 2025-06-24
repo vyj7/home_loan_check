@@ -692,8 +692,19 @@
         
         <div id="basic" class="tab-content active">
             <div class="income-config">
-                <h3>Income Configuration</h3>
-                <div class="income-grid">
+                <h3>Configuration Mode</h3>
+                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="calcMode" value="income" checked onchange="switchCalculationMode()">
+                        <span>Calculate based on Income</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="calcMode" value="property" onchange="switchCalculationMode()">
+                        <span>Calculate based on Property Value</span>
+                    </label>
+                </div>
+                
+                <div id="incomeBasedInputs" class="income-grid">
                     <div class="input-group">
                         <label>Gross Monthly Income (Pre-tax) <span class="info-tooltip" title="Enter your salary before tax deductions">?</span></label>
                         <input type="number" id="monthlyIncome" value="350000" step="10000" min="50000">
@@ -708,6 +719,25 @@
                     <div class="input-group">
                         <label>Other Tax Deductions (80C, 80D, etc)</label>
                         <input type="number" id="otherDeductions" value="200000" step="10000">
+                    </div>
+                </div>
+                
+                <div id="propertyBasedInputs" class="income-grid" style="display: none;">
+                    <div class="input-group">
+                        <label>Property Value (₹)</label>
+                        <input type="number" id="propertyValue" value="25000000" step="100000" min="1000000">
+                    </div>
+                    <div class="input-group">
+                        <label>Your Monthly Income (for validation)</label>
+                        <input type="number" id="monthlyIncomeProperty" value="350000" step="10000" min="50000">
+                    </div>
+                    <div class="input-group">
+                        <label>Property Location Type</label>
+                        <select id="propertyLocation">
+                            <option value="metro">Metro City (Mumbai, Delhi, etc.)</option>
+                            <option value="tier1">Tier 1 City</option>
+                            <option value="tier2">Tier 2/3 City</option>
+                        </select>
                     </div>
                 </div>
                 <div class="tax-summary">
@@ -733,8 +763,8 @@
             </div>
             
             <div class="income-summary" id="incomeSummary">
-                <h2>EMI Affordability Analysis</h2>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 15px;">
+                <h2 id="summaryTitle">EMI Affordability Analysis</h2>
+                <div id="incomeAnalysis" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 15px;">
                     <div>
                         <div style="font-size: 0.9em; opacity: 0.9;">Bank's View (40% Gross)</div>
                         <div style="font-size: 1.5em; font-weight: bold;" id="bankEmiLimit">₹1,40,000</div>
@@ -750,6 +780,24 @@
                     <div>
                         <div style="font-size: 0.9em; opacity: 0.9;">Max Loan (Bank)</div>
                         <div style="font-size: 1.5em; font-weight: bold;" id="maxLoanBank">₹2.1 Cr</div>
+                    </div>
+                </div>
+                <div id="propertyAnalysis" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 15px;">
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Property Value</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="propertyValueDisplay">₹2.5 Cr</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Required EMI</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="requiredEmi">₹1,50,000</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">EMI to Income Ratio</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="emiIncomeRatioDisplay">43%</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Affordability Status</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="affordabilityStatus">Moderate</div>
                     </div>
                 </div>
             </div>
@@ -817,10 +865,10 @@
                 </div>
             </div>
             
-            <div class="results" id="results">
+                <div class="results" id="results">
                 <h3>Loan Recommendation & Analysis</h3>
                 <div class="result-item">
-                    <span class="result-label">Maximum Property Value</span>
+                    <span class="result-label" id="propertyValueLabel">Maximum Property Value</span>
                     <span class="result-value" id="maxPropertyValue">₹0</span>
                 </div>
                 <div class="result-item">
@@ -842,6 +890,10 @@
                 <div class="result-item">
                     <span class="result-label">EMI to Net Income Ratio</span>
                     <span class="result-value" id="emiNetRatio">0%</span>
+                </div>
+                <div class="result-item" id="minimumIncomeRow" style="display: none;">
+                    <span class="result-label">Minimum Income Required</span>
+                    <span class="result-value highlight" id="minimumIncome">₹0</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Original Tenure</span>
@@ -1341,6 +1393,7 @@
         let amortizationChart = null;
         let currentTableView = 'yearly';
         let amortizationData = [];
+        let calculationMode = 'income'; // 'income' or 'property'
         
         // Tax calculation functions
         function calculateTax(annualIncome, regime, deductions) {
@@ -1480,7 +1533,181 @@
             document.getElementById('maxLoanBank').textContent = formatCurrency(Math.round(maxLoan));
         }
         
+        function switchCalculationMode() {
+            const mode = document.querySelector('input[name="calcMode"]:checked').value;
+            calculationMode = mode;
+            
+            if (mode === 'income') {
+                document.getElementById('incomeBasedInputs').style.display = 'grid';
+                document.getElementById('propertyBasedInputs').style.display = 'none';
+                document.getElementById('incomeAnalysis').style.display = 'grid';
+                document.getElementById('propertyAnalysis').style.display = 'none';
+                document.getElementById('summaryTitle').textContent = 'EMI Affordability Analysis';
+                document.getElementById('propertyValueLabel').textContent = 'Maximum Property Value';
+                document.getElementById('minimumIncomeRow').style.display = 'none';
+            } else {
+                document.getElementById('incomeBasedInputs').style.display = 'none';
+                document.getElementById('propertyBasedInputs').style.display = 'grid';
+                document.getElementById('incomeAnalysis').style.display = 'none';
+                document.getElementById('propertyAnalysis').style.display = 'grid';
+                document.getElementById('summaryTitle').textContent = 'Property Affordability Analysis';
+                document.getElementById('propertyValueLabel').textContent = 'Target Property Value';
+                document.getElementById('minimumIncomeRow').style.display = 'flex';
+            }
+            
+            updateCalculations();
+        }
+        
         function updateCalculations() {
+            if (calculationMode === 'income') {
+                updateCalculationsIncomeBase();
+            } else {
+                updateCalculationsPropertyBase();
+            }
+        }
+        
+        function updateCalculationsPropertyBase() {
+            const propertyValue = parseInt(document.getElementById('propertyValue').value);
+            const monthlyIncome = parseInt(document.getElementById('monthlyIncomeProperty').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const tenure = parseInt(document.getElementById('tenureSlider').value);
+            const downPaymentPercent = parseInt(document.getElementById('downPaymentSlider').value);
+            const monthlyExpenses = parseInt(document.getElementById('monthlyExpenses').value);
+            const appreciationRate = parseFloat(document.getElementById('appreciationRate').value);
+            const extraEmiPerYear = parseInt(document.getElementById('extraEmiPerYear').value);
+            const annualPrepayment = parseInt(document.getElementById('annualPrepayment').value);
+            const regime = document.getElementById('taxRegime').value;
+            const otherDeductions = parseInt(document.getElementById('otherDeductions').value);
+            
+            // Update display values
+            document.getElementById('tenureValue').textContent = tenure + ' years';
+            document.getElementById('downPaymentValue').textContent = downPaymentPercent + '%';
+            
+            // Calculate loan details based on property value
+            const downPaymentAmount = propertyValue * downPaymentPercent / 100;
+            const actualLoanAmount = propertyValue - downPaymentAmount;
+            const actualEMI = calculateEMI(actualLoanAmount, interestRate, tenure);
+            
+            // Calculate minimum income required
+            const minimumIncomeRequired = Math.round(actualEMI / 0.4); // 40% rule
+            const conservativeIncomeRequired = Math.round(actualEMI / 0.35); // 35% for safety
+            
+            // Update property analysis display
+            document.getElementById('propertyValueDisplay').textContent = formatCurrency(propertyValue);
+            document.getElementById('requiredEmi').textContent = formatCurrency(actualEMI);
+            const emiIncomeRatio = (actualEMI / monthlyIncome * 100).toFixed(1);
+            document.getElementById('emiIncomeRatioDisplay').textContent = emiIncomeRatio + '%';
+            
+            // Determine affordability status
+            let affordabilityStatus;
+            let statusColor;
+            if (emiIncomeRatio <= 30) {
+                affordabilityStatus = 'Comfortable';
+                statusColor = '#10b981';
+            } else if (emiIncomeRatio <= 40) {
+                affordabilityStatus = 'Moderate';
+                statusColor = '#f59e0b';
+            } else if (emiIncomeRatio <= 50) {
+                affordabilityStatus = 'Stretched';
+                statusColor = '#ef4444';
+            } else {
+                affordabilityStatus = 'Not Affordable';
+                statusColor = '#dc2626';
+            }
+            
+            const affordabilityElement = document.getElementById('affordabilityStatus');
+            affordabilityElement.textContent = affordabilityStatus;
+            affordabilityElement.style.color = statusColor;
+            
+            // Calculate without prepayment
+            const months = tenure * 12;
+            const totalPayableNormal = actualEMI * months;
+            const totalInterestNormal = totalPayableNormal - actualLoanAmount;
+            
+            // Calculate with prepayment
+            const prepaymentResult = calculatePrepaymentImpact(
+                actualLoanAmount, 
+                interestRate, 
+                tenure, 
+                actualEMI, 
+                extraEmiPerYear, 
+                annualPrepayment
+            );
+            
+            const effectiveTenure = prepaymentResult.effectiveMonths / 12;
+            const interestSavings = totalInterestNormal - prepaymentResult.totalInterest;
+            const tenureReduction = tenure - effectiveTenure;
+            
+            // Calculate post-tax income
+            const annualIncome = monthlyIncome * 12;
+            const tax = calculateTax(annualIncome, regime, otherDeductions);
+            const postTaxMonthly = Math.round((annualIncome - tax) / 12);
+            
+            const emiRatio = (actualEMI / monthlyIncome * 100).toFixed(1);
+            const emiNetRatio = (actualEMI / postTaxMonthly * 100).toFixed(1);
+            const availableSavings = postTaxMonthly - actualEMI - monthlyExpenses;
+            
+            // Calculate appreciation
+            const value10Years = calculateAppreciation(propertyValue, appreciationRate, 10);
+            const valueLoanEnd = calculateAppreciation(propertyValue, appreciationRate, effectiveTenure);
+            const totalPaidToBank = prepaymentResult.totalPaid + downPaymentAmount;
+            const netGain = valueLoanEnd - totalPaidToBank;
+            
+            // Update results
+            document.getElementById('maxPropertyValue').textContent = formatCurrency(propertyValue);
+            document.getElementById('downPaymentRequired').textContent = formatCurrency(Math.round(downPaymentAmount));
+            document.getElementById('downPaymentAmount').textContent = formatCurrency(Math.round(downPaymentAmount));
+            document.getElementById('recommendedLoan').textContent = formatCurrency(Math.round(actualLoanAmount));
+            document.getElementById('monthlyEMI').textContent = formatCurrency(actualEMI);
+            document.getElementById('emiRatio').textContent = emiRatio + '%';
+            document.getElementById('emiNetRatio').textContent = emiNetRatio + '%';
+            document.getElementById('minimumIncome').textContent = formatCurrency(conservativeIncomeRequired) + ' (Safe) / ' + formatCurrency(minimumIncomeRequired) + ' (Max)';
+            document.getElementById('originalTenure').textContent = tenure + ' years';
+            document.getElementById('effectiveTenure').textContent = effectiveTenure.toFixed(1) + ' years';
+            document.getElementById('interestWithoutPrepay').textContent = formatCurrency(totalInterestNormal);
+            document.getElementById('interestWithPrepay').textContent = formatCurrency(prepaymentResult.totalInterest);
+            document.getElementById('availableSavings').textContent = formatCurrency(availableSavings);
+            
+            // Update savings highlight
+            document.getElementById('totalSavings').textContent = formatCurrency(interestSavings);
+            document.getElementById('tenureReduction').textContent = tenureReduction.toFixed(1);
+            
+            // Update appreciation values
+            document.getElementById('value10Years').textContent = formatCurrency(Math.round(value10Years));
+            document.getElementById('valueLoanEnd').textContent = formatCurrency(Math.round(valueLoanEnd));
+            document.getElementById('netGain').textContent = formatCurrency(Math.round(netGain));
+            if (netGain < 0) {
+                document.getElementById('netGain').style.color = '#ef4444';
+            } else {
+                document.getElementById('netGain').style.color = '#10b981';
+            }
+            
+            // Update recommendations and warnings
+            const recommendationDiv = document.getElementById('recommendation');
+            const warningDiv = document.getElementById('warning');
+            const recommendationText = document.getElementById('recommendationText');
+            const warningText = document.getElementById('warningText');
+            
+            recommendationDiv.style.display = 'none';
+            warningDiv.style.display = 'none';
+            
+            if (monthlyIncome >= conservativeIncomeRequired && availableSavings > 50000) {
+                recommendationDiv.style.display = 'block';
+                recommendationText.textContent = `This property is affordable for your income level. EMI of ${formatCurrency(actualEMI)} is ${emiRatio}% of your income. With prepayments, you can save ${formatCurrency(interestSavings)} and own the property ${tenureReduction.toFixed(1)} years earlier.`;
+            } else if (monthlyIncome < minimumIncomeRequired) {
+                warningDiv.style.display = 'block';
+                warningText.textContent = `Your current income of ${formatCurrency(monthlyIncome)} is below the minimum required income of ${formatCurrency(minimumIncomeRequired)} for this property. Consider a lower-priced property or increase your down payment.`;
+            } else if (emiRatio > 50) {
+                warningDiv.style.display = 'block';
+                warningText.textContent = `This property will stretch your finances significantly. EMI will be ${emiRatio}% of your income, leaving very little for savings and emergencies.`;
+            }
+            
+            // Update all other calculations
+            updateTaxAndOtherCalculations(actualLoanAmount, interestRate, tenure, actualEMI, propertyValue, downPaymentAmount, 
+                prepaymentResult, effectiveTenure, appreciationRate, regime, otherDeductions, monthlyIncome);
+        }
+        
+        function updateCalculationsIncomeBase() {
             const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value);
             const interestRate = parseFloat(document.getElementById('interestRate').value);
             const tenure = parseInt(document.getElementById('tenureSlider').value);
@@ -1650,9 +1877,58 @@
                 warningText.textContent = 'Your savings buffer is too low. Maintain at least ₹50,000 monthly surplus for emergencies.';
             }
             
+            // Update all other calculations
+            updateTaxAndOtherCalculations(actualLoanAmount, interestRate, tenure, actualEMI, maxPropertyValue, downPaymentAmount, 
+                prepaymentResult, effectiveTenure, appreciationRate, regime, otherDeductions, monthlyIncome);
+        }
+        
+        function updateTaxAndOtherCalculations(actualLoanAmount, interestRate, tenure, actualEMI, propertyValue, downPaymentAmount, 
+            prepaymentResult, effectiveTenure, appreciationRate, regime, otherDeductions, monthlyIncome) {
+            
+            // Calculate tax benefits
+            const yearlyPrincipal = (actualLoanAmount / tenure);
+            const firstYearInterest = actualLoanAmount * interestRate / 100;
+            const principal80C = Math.min(yearlyPrincipal, 150000);
+            const interest24B = Math.min(firstYearInterest, 200000);
+            const annualIncome = monthlyIncome * 12;
+            const taxBracket = annualIncome > 1500000 ? 0.30 : annualIncome > 1000000 ? 0.20 : 0.10;
+            const annualTaxBenefit = regime === 'old' ? (principal80C + interest24B) * taxBracket : 0;
+            const effectiveInterestRate = interestRate * (1 - (regime === 'old' ? taxBracket : 0));
+            
+            document.getElementById('taxSavingsFromLoan').textContent = formatCurrency(Math.round(annualTaxBenefit));
+            
+            // Update tax benefits (Advanced tab)
+            document.getElementById('principal80C').textContent = formatCurrency(Math.round(principal80C));
+            document.getElementById('interest24B').textContent = formatCurrency(Math.round(interest24B));
+            document.getElementById('annualTaxBenefit').textContent = formatCurrency(Math.round(annualTaxBenefit));
+            document.getElementById('effectiveRate').textContent = effectiveInterestRate.toFixed(2) + '%';
+            
+            // Update real estate metrics
+            const pricePerSqft = parseInt(document.getElementById('pricePerSqft').value);
+            const propertyArea = Math.round(propertyValue / pricePerSqft);
+            const rentalYield = parseFloat(document.getElementById('rentalYield').value);
+            const monthlyRent = Math.round(propertyValue * rentalYield / 100 / 12);
+            const emiRentRatio = (actualEMI / monthlyRent).toFixed(1);
+            
+            document.getElementById('propertyArea').textContent = propertyArea + ' sq.ft';
+            document.getElementById('monthlyRent').textContent = formatCurrency(monthlyRent);
+            document.getElementById('emiRentRatio').textContent = emiRentRatio + 'x';
+            
+            // Calculate opportunity cost
+            const investmentReturn = parseFloat(document.getElementById('investmentReturn').value);
+            const downPaymentInvested = calculateAppreciation(downPaymentAmount, investmentReturn, effectiveTenure);
+            const annualPrepayment = parseInt(document.getElementById('annualPrepayment').value);
+            const prepaymentInvested = calculateAppreciation(annualPrepayment * effectiveTenure, investmentReturn / 2, effectiveTenure / 2);
+            const opportunityCost = (downPaymentInvested - downPaymentAmount) + (prepaymentInvested - annualPrepayment * effectiveTenure);
+            
+            document.getElementById('downPaymentInvested').textContent = formatCurrency(Math.round(downPaymentInvested));
+            document.getElementById('prepaymentInvested').textContent = formatCurrency(Math.round(prepaymentInvested));
+            document.getElementById('opportunityCost').textContent = formatCurrency(Math.round(opportunityCost));
+            
             // Update charts
             updatePaymentChart(actualLoanAmount, prepaymentResult.totalInterest, downPaymentAmount);
-            updateAppreciationChart(maxPropertyValue, totalPaidToBank, appreciationRate, effectiveTenure);
+            updateAppreciationChart(propertyValue, prepaymentResult.totalPaid + downPaymentAmount, appreciationRate, effectiveTenure);
+            const extraEmiPerYear = parseInt(document.getElementById('extraEmiPerYear').value);
             updatePrepaymentChart(actualLoanAmount, interestRate, tenure, actualEMI, extraEmiPerYear, annualPrepayment);
             updateComparisonTable();
             
@@ -2375,6 +2651,9 @@
         
         // Event listeners
         document.getElementById('monthlyIncome').addEventListener('input', updateCalculations);
+        document.getElementById('propertyValue').addEventListener('input', updateCalculations);
+        document.getElementById('monthlyIncomeProperty').addEventListener('input', updateCalculations);
+        document.getElementById('propertyLocation').addEventListener('change', updateCalculations);
         document.getElementById('taxRegime').addEventListener('change', updateCalculations);
         document.getElementById('otherDeductions').addEventListener('input', updateCalculations);
         document.getElementById('interestRate').addEventListener('input', updateCalculations);
