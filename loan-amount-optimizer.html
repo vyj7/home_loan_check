@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Home Loan Optimizer with Tax & Prepayment Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #5a67d8;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: #718096;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .tab.active {
+            color: #5a67d8;
+            border-bottom-color: #5a67d8;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .income-config {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .income-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .income-summary {
+            background: linear-gradient(135deg, #5a67d8, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tax-summary {
+            background: #f0f4f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h3 {
+            color: #5a67d8;
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #5a67d8;
+        }
+        
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #5a67d8;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #5a67d8;
+            cursor: pointer;
+        }
+        
+        .slider-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #718096;
+        }
+        
+        .slider-value {
+            font-weight: bold;
+            color: #5a67d8;
+            font-size: 1.1em;
+        }
+        
+        .results {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #5a67d8;
+            margin-top: 30px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        .result-value {
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .recommendation {
+            background: #d1fae5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .warning {
+            background: #fee2e2;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .savings-highlight {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .savings-amount {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .scenarios {
+            margin-top: 40px;
+        }
+        
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .scenario-card {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .scenario-card:hover {
+            background: #5a67d8;
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .scenario-card h4 {
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            background: #5a67d8;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #4c51bf;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .chart-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            height: 400px;
+        }
+        
+        .chart-container.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .chart-container h4 {
+            color: #5a67d8;
+            margin-bottom: 15px;
+        }
+        
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+        
+        .appreciation-summary {
+            background: #e0e7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #5a67d8;
+        }
+        
+        .appreciation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .appreciation-item {
+            text-align: center;
+        }
+        
+        .appreciation-label {
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+        
+        .appreciation-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #5a67d8;
+        }
+        
+        .prepayment-section {
+            background: #fef3c7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px solid #f59e0b;
+        }
+        
+        .prepayment-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: #5a67d8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .info-tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #5a67d8;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 12px;
+            margin-left: 5px;
+            cursor: help;
+        }
+        
+        @media (max-width: 1200px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .scenario-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ultimate Home Loan Optimizer</h1>
+        <p class="subtitle">Advanced calculator with tax benefits, prepayment analysis, and wealth projection</p>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('basic')">Basic Calculator</button>
+            <button class="tab" onclick="switchTab('advanced')">Advanced Features</button>
+            <button class="tab" onclick="switchTab('comparison')">Scenario Comparison</button>
+        </div>
+        
+        <div id="basic" class="tab-content active">
+            <div class="income-config">
+                <h3>Income Configuration</h3>
+                <div class="income-grid">
+                    <div class="input-group">
+                        <label>Gross Monthly Income (Pre-tax) <span class="info-tooltip" title="Enter your salary before tax deductions">?</span></label>
+                        <input type="number" id="monthlyIncome" value="350000" step="10000" min="50000">
+                    </div>
+                    <div class="input-group">
+                        <label>Tax Regime</label>
+                        <select id="taxRegime">
+                            <option value="old">Old Regime (with deductions)</option>
+                            <option value="new">New Regime (no deductions)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Other Tax Deductions (80C, 80D, etc)</label>
+                        <input type="number" id="otherDeductions" value="200000" step="10000">
+                    </div>
+                </div>
+                <div class="tax-summary">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                        <div>
+                            <div style="font-size: 0.9em; color: #718096;">Annual Gross Income</div>
+                            <div style="font-size: 1.2em; font-weight: bold;" id="annualGrossIncome">₹42,00,000</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9em; color: #718096;">Estimated Tax</div>
+                            <div style="font-size: 1.2em; font-weight: bold;" id="estimatedTax">₹11,70,000</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9em; color: #718096;">Post-tax Monthly</div>
+                            <div style="font-size: 1.2em; font-weight: bold;" id="postTaxMonthly">₹2,52,500</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9em; color: #718096;">Tax Savings from Loan</div>
+                            <div style="font-size: 1.2em; font-weight: bold; color: #10b981;" id="taxSavingsFromLoan">₹0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="income-summary" id="incomeSummary">
+                <h2>EMI Affordability Analysis</h2>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 15px;">
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Bank's View (40% Gross)</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="bankEmiLimit">₹1,40,000</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Actual Capacity (40% Net)</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="actualEmiCapacity">₹1,01,000</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Recommended EMI</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="recommendedEmi">₹88,375</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Max Loan (Bank)</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="maxLoanBank">₹2.1 Cr</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Loan Parameters</h3>
+                    <div class="input-group">
+                        <label>Interest Rate (% p.a.)</label>
+                        <input type="number" id="interestRate" value="8.45" step="0.05" min="6" max="15">
+                    </div>
+                    <div class="input-group">
+                        <label>Loan Tenure (Years)</label>
+                        <input type="range" id="tenureSlider" class="slider" value="20" min="5" max="30" step="1">
+                        <div class="slider-info">
+                            <span>5 years</span>
+                            <span class="slider-value" id="tenureValue">20 years</span>
+                            <span>30 years</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Down Payment (%)</label>
+                        <input type="range" id="downPaymentSlider" class="slider" value="20" min="10" max="50" step="5">
+                        <div class="slider-info">
+                            <span>10%</span>
+                            <span class="slider-value" id="downPaymentValue">20%</span>
+                            <span>50%</span>
+                        </div>
+                        <div style="margin-top: 10px; padding: 10px; background: #f0f4f8; border-radius: 8px;">
+                            <div style="font-size: 0.9em; color: #4a5568;">Down Payment Amount:</div>
+                            <div style="font-size: 1.2em; font-weight: bold; color: #5a67d8;" id="downPaymentAmount">₹0</div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>House Appreciation Rate (% p.a.)</label>
+                        <input type="number" id="appreciationRate" value="6" step="0.5" min="0" max="15">
+                        <small style="color: #718096;">Avg: Metro 5-7%, Tier-2 7-9%</small>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Financial Commitments & Prepayment</h3>
+                    <div class="input-group">
+                        <label>Other Monthly Expenses (₹)</label>
+                        <input type="number" id="monthlyExpenses" value="100000" step="10000">
+                    </div>
+                    <div class="input-group">
+                        <label>Extra EMI Payments per Year</label>
+                        <input type="number" id="extraEmiPerYear" value="1" min="0" max="12" step="1">
+                        <small style="color: #718096;">Use bonus/13th month salary for prepayment</small>
+                    </div>
+                    <div class="input-group">
+                        <label>Annual Prepayment Amount (₹)</label>
+                        <input type="number" id="annualPrepayment" value="500000" step="50000" min="0">
+                        <small style="color: #718096;">Lump sum payment towards principal</small>
+                    </div>
+                    <div class="input-group">
+                        <label>Risk Profile</label>
+                        <select id="riskProfile">
+                            <option value="conservative">Conservative (30% of gross)</option>
+                            <option value="moderate" selected>Moderate (40% of gross)</option>
+                            <option value="aggressive">Aggressive (50% of gross)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results" id="results">
+                <h3>Loan Recommendation & Analysis</h3>
+                <div class="result-item">
+                    <span class="result-label">Maximum Property Value</span>
+                    <span class="result-value" id="maxPropertyValue">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Down Payment Required</span>
+                    <span class="result-value" id="downPaymentRequired">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Loan Amount</span>
+                    <span class="result-value highlight" id="recommendedLoan">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Monthly EMI</span>
+                    <span class="result-value" id="monthlyEMI">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">EMI to Gross Income Ratio</span>
+                    <span class="result-value" id="emiRatio">0%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">EMI to Net Income Ratio</span>
+                    <span class="result-value" id="emiNetRatio">0%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Original Tenure</span>
+                    <span class="result-value" id="originalTenure">0 years</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Effective Tenure (with prepayments)</span>
+                    <span class="result-value highlight" id="effectiveTenure">0 years</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Interest Without Prepayment</span>
+                    <span class="result-value" id="interestWithoutPrepay">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Interest With Prepayment</span>
+                    <span class="result-value" id="interestWithPrepay">₹0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Available for Savings/Investment</span>
+                    <span class="result-value" id="availableSavings">₹0</span>
+                </div>
+            </div>
+            
+            <div class="savings-highlight" id="savingsHighlight">
+                <h3>Total Interest Savings from Prepayments</h3>
+                <div class="savings-amount" id="totalSavings">₹0</div>
+                <p>Tenure reduced by <span id="tenureReduction">0</span> years</p>
+            </div>
+            
+            <div class="appreciation-summary">
+                <h4>Property Value & Wealth Creation</h4>
+                <div class="appreciation-grid">
+                    <div class="appreciation-item">
+                        <div class="appreciation-label">Property Value After 10 Years</div>
+                        <div class="appreciation-value" id="value10Years">₹0</div>
+                    </div>
+                    <div class="appreciation-item">
+                        <div class="appreciation-label">Property Value at Loan End</div>
+                        <div class="appreciation-value" id="valueLoanEnd">₹0</div>
+                    </div>
+                    <div class="appreciation-item">
+                        <div class="appreciation-label">Net Wealth Created</div>
+                        <div class="appreciation-value" id="netGain">₹0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="recommendation" class="recommendation" style="display: none;">
+                <h4>✓ Recommendation</h4>
+                <p id="recommendationText"></p>
+            </div>
+            
+            <div id="warning" class="warning" style="display: none;">
+                <h4>⚠ Warning</h4>
+                <p id="warningText"></p>
+            </div>
+            
+            <div class="scenarios">
+                <h3>Quick Scenarios</h3>
+                <div class="scenario-grid">
+                    <div class="scenario-card" onclick="setScenario('conservative')">
+                        <h4>Conservative</h4>
+                        <p>₹1.5 Cr Property</p>
+                        <p>30% Down</p>
+                        <p>20 Years</p>
+                    </div>
+                    <div class="scenario-card" onclick="setScenario('balanced')">
+                        <h4>Balanced</h4>
+                        <p>₹2.2 Cr Property</p>
+                        <p>25% Down</p>
+                        <p>25 Years</p>
+                    </div>
+                    <div class="scenario-card" onclick="setScenario('aggressive')">
+                        <h4>Aggressive</h4>
+                        <p>₹3 Cr Property</p>
+                        <p>15% Down</p>
+                        <p>30 Years</p>
+                    </div>
+                    <div class="scenario-card" onclick="setScenario('smart')">
+                        <h4>Smart Saver</h4>
+                        <p>₹2 Cr Property</p>
+                        <p>20% Down</p>
+                        <p>15 Years + Prepay</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h4>Payment Breakdown</h4>
+                    <canvas id="paymentChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Property Value vs Total Payments</h4>
+                    <canvas id="appreciationChart"></canvas>
+                </div>
+                <div class="chart-container full-width">
+                    <h4>Loan Balance Over Time: With vs Without Prepayments</h4>
+                    <canvas id="prepaymentChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div id="advanced" class="tab-content">
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Tax Benefits Calculator</h3>
+                    <div class="result-item">
+                        <span class="result-label">Principal Repayment (80C)</span>
+                        <span class="result-value" id="principal80C">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Interest Payment (24B)</span>
+                        <span class="result-value" id="interest24B">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Annual Tax Savings</span>
+                        <span class="result-value highlight" id="annualTaxBenefit">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Effective Interest Rate</span>
+                        <span class="result-value" id="effectiveRate">0%</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Investment Opportunity Cost</h3>
+                    <div class="input-group">
+                        <label>Expected Investment Return (% p.a.)</label>
+                        <input type="number" id="investmentReturn" value="12" step="0.5" min="0" max="30">
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">If Invested Down Payment</span>
+                        <span class="result-value" id="downPaymentInvested">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">If Invested Prepayments</span>
+                        <span class="result-value" id="prepaymentInvested">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Opportunity Cost</span>
+                        <span class="result-value" id="opportunityCost">₹0</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Real Estate Metrics</h3>
+                    <div class="result-item">
+                        <span class="result-label">Price per Sq.ft</span>
+                        <span class="result-value">
+                            <input type="number" id="pricePerSqft" value="15000" style="width: 100px; padding: 5px;">
+                        </span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Approx Area (sq.ft)</span>
+                        <span class="result-value" id="propertyArea">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Rental Yield (annual)</span>
+                        <span class="result-value">
+                            <input type="number" id="rentalYield" value="2.5" step="0.1" style="width: 60px; padding: 5px;">%
+                        </span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Rental Income</span>
+                        <span class="result-value" id="monthlyRent">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">EMI to Rent Ratio</span>
+                        <span class="result-value" id="emiRentRatio">0x</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="prepayment-section">
+                <h3>Prepayment Strategy Optimizer</h3>
+                <div class="prepayment-options">
+                    <div>
+                        <label>
+                            <input type="radio" name="prepayStrategy" value="reduce-emi" checked>
+                            Reduce EMI Amount
+                        </label>
+                        <p style="font-size: 0.9em; color: #718096; margin-top: 5px;">Keep tenure same, lower monthly burden</p>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="radio" name="prepayStrategy" value="reduce-tenure">
+                            Reduce Loan Tenure
+                        </label>
+                        <p style="font-size: 0.9em; color: #718096; margin-top: 5px;">Keep EMI same, pay off faster</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4>Optimal Prepayment Timing</h4>
+                    <p style="color: #4a5568;">Best months for prepayment: <strong>April (Bonus), December (13th month)</strong></p>
+                    <p style="color: #4a5568; margin-top: 10px;">Prepay early in the loan tenure for maximum interest savings</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="comparison" class="tab-content">
+            <h3>Scenario Comparison</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Property Value</th>
+                        <th>Loan Amount</th>
+                        <th>EMI</th>
+                        <th>Total Interest</th>
+                        <th>Effective Tenure</th>
+                        <th>10-Year Value</th>
+                        <th>Net Wealth</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonTableBody">
+                    <!-- Dynamically populated -->
+                </tbody>
+            </table>
+            
+            <div class="chart-container full-width" style="margin-top: 30px;">
+                <h4>Wealth Creation Comparison</h4>
+                <canvas id="wealthComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        let paymentChart = null;
+        let appreciationChart = null;
+        let prepaymentChart = null;
+        let wealthComparisonChart = null;
+        
+        // Tax calculation functions
+        function calculateTax(annualIncome, regime, deductions) {
+            let taxableIncome = annualIncome;
+            let tax = 0;
+            
+            if (regime === 'old') {
+                // Standard deduction
+                taxableIncome -= 50000;
+                // Other deductions
+                taxableIncome -= Math.min(deductions, 150000); // 80C limit
+                taxableIncome = Math.max(taxableIncome, 0);
+                
+                // Old regime slabs
+                if (taxableIncome > 1500000) {
+                    tax = 187500 + (taxableIncome - 1500000) * 0.30;
+                } else if (taxableIncome > 1250000) {
+                    tax = 125000 + (taxableIncome - 1250000) * 0.25;
+                } else if (taxableIncome > 1000000) {
+                    tax = 75000 + (taxableIncome - 1000000) * 0.20;
+                } else if (taxableIncome > 750000) {
+                    tax = 37500 + (taxableIncome - 750000) * 0.15;
+                } else if (taxableIncome > 500000) {
+                    tax = 12500 + (taxableIncome - 500000) * 0.10;
+                } else if (taxableIncome > 250000) {
+                    tax = (taxableIncome - 250000) * 0.05;
+                }
+            } else {
+                // New regime - no deductions except standard
+                taxableIncome -= 75000; // Higher standard deduction in new regime
+                
+                // New regime slabs
+                if (taxableIncome > 1500000) {
+                    tax = 150000 + (taxableIncome - 1500000) * 0.30;
+                } else if (taxableIncome > 1200000) {
+                    tax = 90000 + (taxableIncome - 1200000) * 0.20;
+                } else if (taxableIncome > 900000) {
+                    tax = 45000 + (taxableIncome - 900000) * 0.15;
+                } else if (taxableIncome > 600000) {
+                    tax = 15000 + (taxableIncome - 600000) * 0.10;
+                } else if (taxableIncome > 300000) {
+                    tax = (taxableIncome - 300000) * 0.05;
+                }
+            }
+            
+            // Add cess
+            tax = tax * 1.04;
+            
+            return Math.round(tax);
+        }
+        
+        function calculateEMI(principal, rate, tenure) {
+            const monthlyRate = rate / 12 / 100;
+            const months = tenure * 12;
+            if (monthlyRate === 0) return principal / months;
+            const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            return Math.round(emi);
+        }
+        
+        function calculatePrepaymentImpact(principal, rate, tenure, emi, extraEmiPerYear, annualPrepayment) {
+            const monthlyRate = rate / 12 / 100;
+            let balance = principal;
+            let totalInterest = 0;
+            let months = 0;
+            const monthlyPrepayment = annualPrepayment / 12;
+            
+            while (balance > 0 && months < tenure * 12) {
+                const interestComponent = balance * monthlyRate;
+                let principalComponent = emi - interestComponent;
+                
+                // Add monthly prepayment
+                principalComponent += monthlyPrepayment;
+                
+                // Add extra EMI if applicable
+                if (months > 0 && months % Math.floor(12 / extraEmiPerYear) === 0 && extraEmiPerYear > 0) {
+                    principalComponent += emi;
+                }
+                
+                if (principalComponent > balance) {
+                    principalComponent = balance;
+                }
+                
+                balance -= principalComponent;
+                totalInterest += interestComponent;
+                months++;
+            }
+            
+            return {
+                effectiveMonths: months,
+                totalInterest: Math.round(totalInterest),
+                totalPaid: Math.round((months * emi) + (annualPrepayment * (months / 12)) + (extraEmiPerYear * emi * (months / 12)))
+            };
+        }
+        
+        function formatCurrency(amount) {
+            if (amount >= 10000000) {
+                return '₹' + (amount / 10000000).toFixed(2) + ' Cr';
+            } else if (amount >= 100000) {
+                return '₹' + (amount / 100000).toFixed(2) + ' L';
+            } else {
+                return '₹' + amount.toLocaleString('en-IN');
+            }
+        }
+        
+        function calculateAppreciation(initialValue, rate, years) {
+            return initialValue * Math.pow(1 + rate / 100, years);
+        }
+        
+        function updateTaxCalculations() {
+            const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value);
+            const annualIncome = monthlyIncome * 12;
+            const regime = document.getElementById('taxRegime').value;
+            const otherDeductions = parseInt(document.getElementById('otherDeductions').value);
+            
+            const tax = calculateTax(annualIncome, regime, otherDeductions);
+            const postTaxAnnual = annualIncome - tax;
+            const postTaxMonthly = Math.round(postTaxAnnual / 12);
+            
+            document.getElementById('annualGrossIncome').textContent = formatCurrency(annualIncome);
+            document.getElementById('estimatedTax').textContent = formatCurrency(tax);
+            document.getElementById('postTaxMonthly').textContent = formatCurrency(postTaxMonthly);
+            
+            // Update EMI limits
+            const bankEmiLimit = Math.round(monthlyIncome * 0.4);
+            const actualEmiCapacity = Math.round(postTaxMonthly * 0.4);
+            const recommendedEmi = Math.round(postTaxMonthly * 0.35);
+            
+            document.getElementById('bankEmiLimit').textContent = formatCurrency(bankEmiLimit);
+            document.getElementById('actualEmiCapacity').textContent = formatCurrency(actualEmiCapacity);
+            document.getElementById('recommendedEmi').textContent = formatCurrency(recommendedEmi);
+            
+            // Calculate max loan bank would give
+            const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const monthlyRate = interestRate / 12 / 100;
+            const months = 240; // 20 years default
+            const maxLoan = bankEmiLimit * (Math.pow(1 + monthlyRate, months) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, months));
+            document.getElementById('maxLoanBank').textContent = formatCurrency(Math.round(maxLoan));
+        }
+        
+        function updateCalculations() {
+            const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const tenure = parseInt(document.getElementById('tenureSlider').value);
+            const downPaymentPercent = parseInt(document.getElementById('downPaymentSlider').value);
+            const monthlyExpenses = parseInt(document.getElementById('monthlyExpenses').value);
+            const riskProfile = document.getElementById('riskProfile').value;
+            const appreciationRate = parseFloat(document.getElementById('appreciationRate').value);
+            const extraEmiPerYear = parseInt(document.getElementById('extraEmiPerYear').value);
+            const annualPrepayment = parseInt(document.getElementById('annualPrepayment').value);
+            const regime = document.getElementById('taxRegime').value;
+            const otherDeductions = parseInt(document.getElementById('otherDeductions').value);
+            
+            // Update tax calculations
+            updateTaxCalculations();
+            
+            // Update display values
+            document.getElementById('tenureValue').textContent = tenure + ' years';
+            document.getElementById('downPaymentValue').textContent = downPaymentPercent + '%';
+            
+            // Calculate EMI limits based on risk profile
+            let emiLimitPercent;
+            switch(riskProfile) {
+                case 'conservative': emiLimitPercent = 0.30; break;
+                case 'moderate': emiLimitPercent = 0.40; break;
+                case 'aggressive': emiLimitPercent = 0.50; break;
+            }
+            
+            const maxEMI = monthlyIncome * emiLimitPercent;
+            
+            // Calculate maximum loan amount based on EMI limit
+            const monthlyRate = interestRate / 12 / 100;
+            const months = tenure * 12;
+            let maxLoanAmount;
+            
+            if (monthlyRate === 0) {
+                maxLoanAmount = maxEMI * months;
+            } else {
+                maxLoanAmount = maxEMI * (Math.pow(1 + monthlyRate, months) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, months));
+            }
+            
+            // Calculate property value
+            const maxPropertyValue = maxLoanAmount / (1 - downPaymentPercent / 100);
+            
+            // Calculate actual values
+            const downPaymentAmount = maxPropertyValue * downPaymentPercent / 100;
+            const actualLoanAmount = maxPropertyValue - downPaymentAmount;
+            const actualEMI = calculateEMI(actualLoanAmount, interestRate, tenure);
+            
+            // Calculate without prepayment
+            const totalPayableNormal = actualEMI * months;
+            const totalInterestNormal = totalPayableNormal - actualLoanAmount;
+            
+            // Calculate with prepayment
+            const prepaymentResult = calculatePrepaymentImpact(
+                actualLoanAmount, 
+                interestRate, 
+                tenure, 
+                actualEMI, 
+                extraEmiPerYear, 
+                annualPrepayment
+            );
+            
+            const effectiveTenure = prepaymentResult.effectiveMonths / 12;
+            const interestSavings = totalInterestNormal - prepaymentResult.totalInterest;
+            const tenureReduction = tenure - effectiveTenure;
+            
+            // Calculate post-tax income
+            const annualIncome = monthlyIncome * 12;
+            const tax = calculateTax(annualIncome, regime, otherDeductions);
+            const postTaxMonthly = Math.round((annualIncome - tax) / 12);
+            
+            const emiRatio = (actualEMI / monthlyIncome * 100).toFixed(1);
+            const emiNetRatio = (actualEMI / postTaxMonthly * 100).toFixed(1);
+            const availableSavings = postTaxMonthly - actualEMI - monthlyExpenses;
+            
+            // Calculate appreciation
+            const value10Years = calculateAppreciation(maxPropertyValue, appreciationRate, 10);
+            const valueLoanEnd = calculateAppreciation(maxPropertyValue, appreciationRate, effectiveTenure);
+            const totalPaidToBank = prepaymentResult.totalPaid + downPaymentAmount;
+            const netGain = valueLoanEnd - totalPaidToBank;
+            
+            // Calculate tax benefits
+            const yearlyPrincipal = (actualLoanAmount / tenure);
+            const firstYearInterest = actualLoanAmount * interestRate / 100;
+            const principal80C = Math.min(yearlyPrincipal, 150000);
+            const interest24B = Math.min(firstYearInterest, 200000);
+            const taxBracket = annualIncome > 1500000 ? 0.30 : annualIncome > 1000000 ? 0.20 : 0.10;
+            const annualTaxBenefit = regime === 'old' ? (principal80C + interest24B) * taxBracket : 0;
+            const effectiveInterestRate = interestRate * (1 - (regime === 'old' ? taxBracket : 0));
+            
+            document.getElementById('taxSavingsFromLoan').textContent = formatCurrency(Math.round(annualTaxBenefit));
+            
+            // Update results
+            document.getElementById('maxPropertyValue').textContent = formatCurrency(Math.round(maxPropertyValue));
+            document.getElementById('downPaymentRequired').textContent = formatCurrency(Math.round(downPaymentAmount));
+            document.getElementById('downPaymentAmount').textContent = formatCurrency(Math.round(downPaymentAmount));
+            document.getElementById('recommendedLoan').textContent = formatCurrency(Math.round(actualLoanAmount));
+            document.getElementById('monthlyEMI').textContent = formatCurrency(actualEMI);
+            document.getElementById('emiRatio').textContent = emiRatio + '%';
+            document.getElementById('emiNetRatio').textContent = emiNetRatio + '%';
+            document.getElementById('originalTenure').textContent = tenure + ' years';
+            document.getElementById('effectiveTenure').textContent = effectiveTenure.toFixed(1) + ' years';
+            document.getElementById('interestWithoutPrepay').textContent = formatCurrency(totalInterestNormal);
+            document.getElementById('interestWithPrepay').textContent = formatCurrency(prepaymentResult.totalInterest);
+            document.getElementById('availableSavings').textContent = formatCurrency(availableSavings);
+            
+            // Update savings highlight
+            document.getElementById('totalSavings').textContent = formatCurrency(interestSavings);
+            document.getElementById('tenureReduction').textContent = tenureReduction.toFixed(1);
+            
+            // Update appreciation values
+            document.getElementById('value10Years').textContent = formatCurrency(Math.round(value10Years));
+            document.getElementById('valueLoanEnd').textContent = formatCurrency(Math.round(valueLoanEnd));
+            document.getElementById('netGain').textContent = formatCurrency(Math.round(netGain));
+            if (netGain < 0) {
+                document.getElementById('netGain').style.color = '#ef4444';
+            } else {
+                document.getElementById('netGain').style.color = '#10b981';
+            }
+            
+            // Update tax benefits (Advanced tab)
+            document.getElementById('principal80C').textContent = formatCurrency(Math.round(principal80C));
+            document.getElementById('interest24B').textContent = formatCurrency(Math.round(interest24B));
+            document.getElementById('annualTaxBenefit').textContent = formatCurrency(Math.round(annualTaxBenefit));
+            document.getElementById('effectiveRate').textContent = effectiveInterestRate.toFixed(2) + '%';
+            
+            // Update real estate metrics
+            const pricePerSqft = parseInt(document.getElementById('pricePerSqft').value);
+            const propertyArea = Math.round(maxPropertyValue / pricePerSqft);
+            const rentalYield = parseFloat(document.getElementById('rentalYield').value);
+            const monthlyRent = Math.round(maxPropertyValue * rentalYield / 100 / 12);
+            const emiRentRatio = (actualEMI / monthlyRent).toFixed(1);
+            
+            document.getElementById('propertyArea').textContent = propertyArea + ' sq.ft';
+            document.getElementById('monthlyRent').textContent = formatCurrency(monthlyRent);
+            document.getElementById('emiRentRatio').textContent = emiRentRatio + 'x';
+            
+            // Calculate opportunity cost
+            const investmentReturn = parseFloat(document.getElementById('investmentReturn').value);
+            const downPaymentInvested = calculateAppreciation(downPaymentAmount, investmentReturn, effectiveTenure);
+            const prepaymentInvested = calculateAppreciation(annualPrepayment * effectiveTenure, investmentReturn / 2, effectiveTenure / 2);
+            const opportunityCost = (downPaymentInvested - downPaymentAmount) + (prepaymentInvested - annualPrepayment * effectiveTenure);
+            
+            document.getElementById('downPaymentInvested').textContent = formatCurrency(Math.round(downPaymentInvested));
+            document.getElementById('prepaymentInvested').textContent = formatCurrency(Math.round(prepaymentInvested));
+            document.getElementById('opportunityCost').textContent = formatCurrency(Math.round(opportunityCost));
+            
+            // Update recommendations and warnings
+            const recommendationDiv = document.getElementById('recommendation');
+            const warningDiv = document.getElementById('warning');
+            const recommendationText = document.getElementById('recommendationText');
+            const warningText = document.getElementById('warningText');
+            
+            recommendationDiv.style.display = 'none';
+            warningDiv.style.display = 'none';
+            
+            if (availableSavings > monthlyIncome * 0.15 && netGain > 0 && emiNetRatio < 40) {
+                recommendationDiv.style.display = 'block';
+                recommendationText.textContent = `Excellent structure! With prepayments, you'll save ${formatCurrency(interestSavings)} and reduce tenure by ${tenureReduction.toFixed(1)} years. Your property will appreciate to ${formatCurrency(Math.round(valueLoanEnd))}, creating net wealth of ${formatCurrency(Math.round(netGain))}.`;
+            }
+            
+            if (emiNetRatio > 45) {
+                warningDiv.style.display = 'block';
+                warningText.textContent = `Your EMI is ${emiNetRatio}% of post-tax income. Consider reducing the loan amount or increasing tenure.`;
+            } else if (availableSavings < 20000) {
+                warningDiv.style.display = 'block';
+                warningText.textContent = 'Your savings buffer is too low. Maintain at least ₹50,000 monthly surplus for emergencies.';
+            }
+            
+            // Update charts
+            updatePaymentChart(actualLoanAmount, prepaymentResult.totalInterest, downPaymentAmount);
+            updateAppreciationChart(maxPropertyValue, totalPaidToBank, appreciationRate, effectiveTenure);
+            updatePrepaymentChart(actualLoanAmount, interestRate, tenure, actualEMI, extraEmiPerYear, annualPrepayment);
+            updateComparisonTable();
+        }
+        
+        function updatePaymentChart(principal, interest, downPayment) {
+            const ctx = document.getElementById('paymentChart').getContext('2d');
+            
+            if (paymentChart) {
+                paymentChart.destroy();
+            }
+            
+            paymentChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest', 'Down Payment'],
+                    datasets: [{
+                        data: [principal, interest, downPayment],
+                        backgroundColor: ['#5a67d8', '#e53e3e', '#48bb78'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = formatCurrency(Math.round(context.raw));
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.raw / total) * 100).toFixed(1);
+                                    return label + ': ' + value + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateAppreciationChart(propertyValue, totalPaid, appreciationRate, tenure) {
+            const ctx = document.getElementById('appreciationChart').getContext('2d');
+            
+            if (appreciationChart) {
+                appreciationChart.destroy();
+            }
+            
+            // Generate data points for each year
+            const years = [];
+            const propertyValues = [];
+            const totalPaidValues = [];
+            const monthlyPayment = totalPaid / (tenure * 12);
+            
+            for (let year = 0; year <= Math.ceil(tenure); year++) {
+                years.push(year);
+                propertyValues.push(calculateAppreciation(propertyValue, appreciationRate, year));
+                totalPaidValues.push(Math.min(monthlyPayment * 12 * year, totalPaid));
+            }
+            
+            appreciationChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Property Value',
+                        data: propertyValues,
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.1
+                    }, {
+                        label: 'Total Paid to Bank',
+                        data: totalPaidValues,
+                        borderColor: '#e53e3e',
+                        backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(Math.round(context.raw));
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Years'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Amount (₹)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updatePrepaymentChart(principal, rate, tenure, emi, extraEmiPerYear, annualPrepayment) {
+            const ctx = document.getElementById('prepaymentChart').getContext('2d');
+            
+            if (prepaymentChart) {
+                prepaymentChart.destroy();
+            }
+            
+            const monthlyRate = rate / 12 / 100;
+            const months = tenure * 12;
+            
+            // Calculate balances for both scenarios
+            const withoutPrepaymentBalances = [];
+            const withPrepaymentBalances = [];
+            const labels = [];
+            
+            // Without prepayment
+            let balanceNormal = principal;
+            for (let month = 0; month <= months; month++) {
+                if (month % 12 === 0) {
+                    labels.push(month / 12);
+                    withoutPrepaymentBalances.push(balanceNormal);
+                }
+                if (month > 0) {
+                    const interestComponent = balanceNormal * monthlyRate;
+                    const principalComponent = emi - interestComponent;
+                    balanceNormal = Math.max(0, balanceNormal - principalComponent);
+                }
+            }
+            
+            // With prepayment
+            let balancePrepay = principal;
+            const monthlyPrepayment = annualPrepayment / 12;
+            let monthPrepay = 0;
+            
+            while (balancePrepay > 0 && monthPrepay <= months) {
+                if (monthPrepay % 12 === 0) {
+                    withPrepaymentBalances.push(balancePrepay);
+                }
+                if (monthPrepay > 0) {
+                    const interestComponent = balancePrepay * monthlyRate;
+                    let principalComponent = emi - interestComponent + monthlyPrepayment;
+                    
+                    // Add extra EMI if applicable
+                    if (monthPrepay % Math.floor(12 / extraEmiPerYear) === 0 && extraEmiPerYear > 0) {
+                        principalComponent += emi;
+                    }
+                    
+                    balancePrepay = Math.max(0, balancePrepay - principalComponent);
+                }
+                monthPrepay++;
+            }
+            
+            // Fill remaining with zeros
+            while (withPrepaymentBalances.length < labels.length) {
+                withPrepaymentBalances.push(0);
+            }
+            
+            prepaymentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Without Prepayment',
+                        data: withoutPrepaymentBalances,
+                        borderColor: '#e53e3e',
+                        backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.1
+                    }, {
+                        label: 'With Prepayment',
+                        data: withPrepaymentBalances,
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(Math.round(context.raw));
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Years'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Outstanding Balance (₹)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateComparisonTable() {
+            const scenarios = [
+                { name: 'Conservative', downPayment: 30, tenure: 20, prepayment: 0 },
+                { name: 'Balanced', downPayment: 25, tenure: 25, prepayment: 300000 },
+                { name: 'Aggressive', downPayment: 15, tenure: 30, prepayment: 0 },
+                { name: 'Smart Saver', downPayment: 20, tenure: 15, prepayment: 600000 }
+            ];
+            
+            const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const appreciationRate = parseFloat(document.getElementById('appreciationRate').value);
+            const tbody = document.getElementById('comparisonTableBody');
+            tbody.innerHTML = '';
+            
+            const comparisonData = [];
+            
+            scenarios.forEach(scenario => {
+                const maxEMI = monthlyIncome * 0.4;
+                const monthlyRate = interestRate / 12 / 100;
+                const months = scenario.tenure * 12;
+                const maxLoanAmount = maxEMI * (Math.pow(1 + monthlyRate, months) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, months));
+                const maxPropertyValue = maxLoanAmount / (1 - scenario.downPayment / 100);
+                const downPaymentAmount = maxPropertyValue * scenario.downPayment / 100;
+                const actualLoanAmount = maxPropertyValue - downPaymentAmount;
+                const actualEMI = calculateEMI(actualLoanAmount, interestRate, scenario.tenure);
+                
+                const prepaymentResult = calculatePrepaymentImpact(
+                    actualLoanAmount,
+                    interestRate,
+                    scenario.tenure,
+                    actualEMI,
+                    1, // 1 extra EMI per year
+                    scenario.prepayment
+                );
+                
+                const effectiveTenure = prepaymentResult.effectiveMonths / 12;
+                const value10Years = calculateAppreciation(maxPropertyValue, appreciationRate, 10);
+                const valueLoanEnd = calculateAppreciation(maxPropertyValue, appreciationRate, effectiveTenure);
+                const totalPaidToBank = prepaymentResult.totalPaid + downPaymentAmount;
+                const netWealth = valueLoanEnd - totalPaidToBank;
+                
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>${scenario.name}</strong></td>
+                    <td>${formatCurrency(Math.round(maxPropertyValue))}</td>
+                    <td>${formatCurrency(Math.round(actualLoanAmount))}</td>
+                    <td>${formatCurrency(actualEMI)}</td>
+                    <td>${formatCurrency(prepaymentResult.totalInterest)}</td>
+                    <td>${effectiveTenure.toFixed(1)} years</td>
+                    <td>${formatCurrency(Math.round(value10Years))}</td>
+                    <td style="color: ${netWealth > 0 ? '#10b981' : '#ef4444'}">${formatCurrency(Math.round(netWealth))}</td>
+                `;
+                
+                comparisonData.push({
+                    name: scenario.name,
+                    netWealth: netWealth,
+                    propertyValue: maxPropertyValue,
+                    totalPaid: totalPaidToBank
+                });
+            });
+            
+            // Update wealth comparison chart
+            updateWealthComparisonChart(comparisonData);
+        }
+        
+        function updateWealthComparisonChart(data) {
+            const ctx = document.getElementById('wealthComparisonChart');
+            if (!ctx) return;
+            
+            if (wealthComparisonChart) {
+                wealthComparisonChart.destroy();
+            }
+            
+            wealthComparisonChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.name),
+                    datasets: [{
+                        label: 'Net Wealth Created',
+                        data: data.map(d => d.netWealth),
+                        backgroundColor: data.map(d => d.netWealth > 0 ? '#48bb78' : '#e53e3e'),
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Net Wealth: ' + formatCurrency(Math.round(context.raw));
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Scenarios'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Net Wealth (₹)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function setScenario(type) {
+            switch(type) {
+                case 'conservative':
+                    document.getElementById('tenureSlider').value = 20;
+                    document.getElementById('downPaymentSlider').value = 30;
+                    document.getElementById('riskProfile').value = 'conservative';
+                    document.getElementById('extraEmiPerYear').value = 0;
+                    document.getElementById('annualPrepayment').value = 0;
+                    break;
+                case 'balanced':
+                    document.getElementById('tenureSlider').value = 25;
+                    document.getElementById('downPaymentSlider').value = 25;
+                    document.getElementById('riskProfile').value = 'moderate';
+                    document.getElementById('extraEmiPerYear').value = 1;
+                    document.getElementById('annualPrepayment').value = 300000;
+                    break;
+                case 'aggressive':
+                    document.getElementById('tenureSlider').value = 30;
+                    document.getElementById('downPaymentSlider').value = 15;
+                    document.getElementById('riskProfile').value = 'aggressive';
+                    document.getElementById('extraEmiPerYear').value = 0;
+                    document.getElementById('annualPrepayment').value = 0;
+                    break;
+                case 'smart':
+                    document.getElementById('tenureSlider').value = 15;
+                    document.getElementById('downPaymentSlider').value = 20;
+                    document.getElementById('riskProfile').value = 'moderate';
+                    document.getElementById('extraEmiPerYear').value = 2;
+                    document.getElementById('annualPrepayment').value = 600000;
+                    break;
+            }
+            updateCalculations();
+        }
+        
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update comparison table if switching to comparison tab
+            if (tabName === 'comparison') {
+                updateComparisonTable();
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('monthlyIncome').addEventListener('input', updateCalculations);
+        document.getElementById('taxRegime').addEventListener('change', updateCalculations);
+        document.getElementById('otherDeductions').addEventListener('input', updateCalculations);
+        document.getElementById('interestRate').addEventListener('input', updateCalculations);
+        document.getElementById('tenureSlider').addEventListener('input', updateCalculations);
+        document.getElementById('downPaymentSlider').addEventListener('input', updateCalculations);
+        document.getElementById('monthlyExpenses').addEventListener('input', updateCalculations);
+        document.getElementById('riskProfile').addEventListener('change', updateCalculations);
+        document.getElementById('appreciationRate').addEventListener('input', updateCalculations);
+        document.getElementById('extraEmiPerYear').addEventListener('input', updateCalculations);
+        document.getElementById('annualPrepayment').addEventListener('input', updateCalculations);
+        document.getElementById('investmentReturn').addEventListener('input', updateCalculations);
+        document.getElementById('pricePerSqft').addEventListener('input', updateCalculations);
+        document.getElementById('rentalYield').addEventListener('input', updateCalculations);
+        
+        // Initial calculation
+        updateCalculations();
+    </script>
+</body>
+</html>
