@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Home Loan Optimizer with Tax & Prepayment Analysis</title>
+    <title>Home Loan Analysis</title>
     <style>
         * {
             margin: 0;
@@ -668,11 +668,10 @@
 </head>
 <body>
     <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flexbox; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <div>
-                <h1>Ultimate Home Loan Optimizer</h1>
-                <p class="subtitle">Advanced calculator with tax benefits, prepayment analysis, and wealth projection</p>
-            </div>
+                <h1>Home Loan Analysis Calculator  </h1>
+                <p class="subtitle">Analysis with tax benefits, prepayment analysis, and wealth projection</p>
             <button class="info-button" onclick="toggleInfoModal()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -832,8 +831,16 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label>House Appreciation Rate (% p.a.)</label>
-                        <input type="number" id="appreciationRate" value="6" step="0.5" min="0" max="15">
+                        <label>House Appreciation Rate (% p.a.)
+                            <span class="info-tooltip" title="CAGR: Compound Annual Growth Rate - property value grows exponentially. Average: Simple average growth - property value grows linearly.">?</span>
+                        </label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="number" id="appreciationRate" value="6" step="0.5" min="0" max="15" style="flex: 1;">
+                            <select id="appreciationType" style="width: 120px;">
+                                <option value="cagr">CAGR</option>
+                                <option value="average">Average</option>
+                            </select>
+                        </div>
                         <small style="color: #718096;">Avg: Metro 5-7%, Tier-2 7-9%</small>
                     </div>
                 </div>
@@ -1020,9 +1027,13 @@
                 </div>
                 
                 <div class="card">
-                    <h3>Investment Opportunity Cost</h3>
+                    <h3>Investment Opportunity Cost
+                        <span class="info-tooltip" title="This shows what you could earn if you invested your down payment and prepayments in other instruments (like mutual funds) instead of the property. It helps you compare: Should I prepay the loan or invest the money elsewhere?">?</span>
+                    </h3>
                     <div class="input-group">
-                        <label>Expected Investment Return (% p.a.)</label>
+                        <label>Expected Investment Return (% p.a.)
+                            <span class="info-tooltip" title="Average returns: FD 6-7%, Debt Funds 7-9%, Equity Mutual Funds 12-15%, Direct Equity 15-20%">?</span>
+                        </label>
                         <input type="number" id="investmentReturn" value="12" step="0.5" min="0" max="30">
                     </div>
                     <div class="result-item">
@@ -1034,15 +1045,26 @@
                         <span class="result-value" id="prepaymentInvested">₹0</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">Opportunity Cost</span>
+                        <span class="result-label">Opportunity Cost
+                            <span class="info-tooltip" title="The potential profit you miss by buying property instead of investing. If positive, investing might give better returns than property.">?</span>
+                        </span>
                         <span class="result-value" id="opportunityCost">₹0</span>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: #f0f4f8; border-radius: 8px;">
+                        <small style="color: #4a5568;">
+                            <strong>Decision Rule:</strong> If home loan rate < investment returns, consider investing. If loan rate > investment returns, prepay the loan.
+                        </small>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h3>Real Estate Metrics</h3>
+                    <h3>Real Estate Metrics
+                        <span class="info-tooltip" title="These metrics help evaluate the property from an investment perspective">?</span>
+                    </h3>
                     <div class="result-item">
-                        <span class="result-label">Price per Sq.ft</span>
+                        <span class="result-label">Price per Sq.ft
+                            <span class="info-tooltip" title="Average price per sq.ft in your area. Used to estimate property size.">?</span>
+                        </span>
                         <span class="result-value">
                             <input type="number" id="pricePerSqft" value="15000" style="width: 100px; padding: 5px;">
                         </span>
@@ -1052,7 +1074,9 @@
                         <span class="result-value" id="propertyArea">0</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">Rental Yield (annual)</span>
+                        <span class="result-label">Rental Yield (annual)
+                            <span class="info-tooltip" title="Annual rent as % of property value. Typically 2-3% in metros, 3-4% in smaller cities.">?</span>
+                        </span>
                         <span class="result-value">
                             <input type="number" id="rentalYield" value="2.5" step="0.1" style="width: 60px; padding: 5px;">%
                         </span>
@@ -1062,7 +1086,9 @@
                         <span class="result-value" id="monthlyRent">₹0</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">EMI to Rent Ratio</span>
+                        <span class="result-label">EMI to Rent Ratio
+                            <span class="info-tooltip" title="EMI ÷ Rent. If > 3x, renting might be better. If < 2x, buying is usually better.">?</span>
+                        </span>
                         <span class="result-value" id="emiRentRatio">0x</span>
                     </div>
                 </div>
@@ -1199,6 +1225,16 @@
             </button>
             
             <h2 style="color: #5a67d8; margin-bottom: 30px;">How This Calculator Works - Simple Explanations</h2>
+
+            <div class="tips-box" style="margin-top: 20px; margin-bottom: 20px;">
+                <h4>💡 Understanding Advanced Settings</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>CAGR vs Average:</strong> CAGR compounds growth (like FD interest), Average is linear growth. Most real estate follows CAGR.</li>
+                    <li><strong>Opportunity Cost:</strong> Always compare home loan interest rate with potential investment returns.</li>
+                    <li><strong>EMI/Rent Ratio:</strong> In metros, 3-4x is common. In smaller cities, aim for under 2.5x.</li>
+                    <li><strong>Prepayment Strategy:</strong> Front-load prepayments in first 5-7 years for maximum benefit.</li>
+                </ul>
+            </div>
             
             <div class="logic-section">
                 <h3>
@@ -1499,7 +1535,14 @@
         }
         
         function calculateAppreciation(initialValue, rate, years) {
-            return initialValue * Math.pow(1 + rate / 100, years);
+            const appreciationType = document.getElementById('appreciationType').value;
+            if (appreciationType === 'cagr') {
+                // Compound Annual Growth Rate
+                return initialValue * Math.pow(1 + rate / 100, years);
+            } else {
+                // Simple Average Growth
+                return initialValue * (1 + (rate / 100 * years));
+            }
         }
         
         function updateTaxCalculations() {
@@ -1994,12 +2037,20 @@
             const years = [];
             const propertyValues = [];
             const totalPaidValues = [];
+            const principalPaidValues = [];
             const monthlyPayment = totalPaid / (tenure * 12);
+            
+            // Calculate principal portion
+            const downPaymentPercent = parseInt(document.getElementById('downPaymentSlider').value);
+            const downPayment = propertyValue * downPaymentPercent / 100;
+            const loanAmount = propertyValue - downPayment;
+            const monthlyPrincipal = loanAmount / (tenure * 12);
             
             for (let year = 0; year <= Math.ceil(tenure); year++) {
                 years.push(year);
                 propertyValues.push(calculateAppreciation(propertyValue, appreciationRate, year));
                 totalPaidValues.push(Math.min(monthlyPayment * 12 * year, totalPaid));
+                principalPaidValues.push(Math.min(downPayment + (monthlyPrincipal * 12 * year), propertyValue));
             }
             
             appreciationChart = new Chart(ctx, {
@@ -2019,6 +2070,14 @@
                         borderColor: '#e53e3e',
                         backgroundColor: 'rgba(229, 62, 62, 0.1)',
                         borderWidth: 3,
+                        tension: 0.1
+                    }, {
+                        label: 'Principal Paid (Equity Built)',
+                        data: principalPaidValues,
+                        borderColor: '#5a67d8',
+                        backgroundColor: 'rgba(90, 103, 216, 0.1)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
                         tension: 0.1
                     }]
                 },
@@ -2202,6 +2261,7 @@
             tbody.innerHTML = '';
             
             const comparisonData = [];
+            const maxTenure = 30; // Use max tenure for consistent comparison
             
             scenarios.forEach(scenario => {
                 const maxEMI = monthlyIncome * 0.4;
@@ -2224,7 +2284,7 @@
                 
                 const effectiveTenure = prepaymentResult.effectiveMonths / 12;
                 const value10Years = calculateAppreciation(maxPropertyValue, appreciationRate, 10);
-                const valueLoanEnd = calculateAppreciation(maxPropertyValue, appreciationRate, effectiveTenure);
+                const valueLoanEnd = calculateAppreciation(maxPropertyValue, appreciationRate, maxTenure); // Use max tenure for comparison
                 const totalPaidToBank = prepaymentResult.totalPaid + downPaymentAmount;
                 const netWealth = valueLoanEnd - totalPaidToBank;
                 
@@ -2662,6 +2722,7 @@
         document.getElementById('monthlyExpenses').addEventListener('input', updateCalculations);
         document.getElementById('riskProfile').addEventListener('change', updateCalculations);
         document.getElementById('appreciationRate').addEventListener('input', updateCalculations);
+        document.getElementById('appreciationType').addEventListener('change', updateCalculations);
         document.getElementById('extraEmiPerYear').addEventListener('input', updateCalculations);
         document.getElementById('annualPrepayment').addEventListener('input', updateCalculations);
         document.getElementById('investmentReturn').addEventListener('input', updateCalculations);
