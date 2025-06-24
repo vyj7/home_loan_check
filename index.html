@@ -410,6 +410,114 @@
             background: #f8f9fa;
         }
         
+        .info-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #5a67d8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .info-button:hover {
+            background: #4c51bf;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-button:hover {
+            background: #e5e7eb;
+            transform: rotate(90deg);
+        }
+        
+        .logic-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #5a67d8;
+        }
+        
+        .logic-section h3 {
+            color: #5a67d8;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logic-section h3 svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .formula-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .example-box {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .tips-box {
+            background: #d1fae5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #10b981;
+        }
         .info-tooltip {
             display: inline-block;
             width: 16px;
@@ -422,6 +530,127 @@
             font-size: 12px;
             margin-left: 5px;
             cursor: help;
+        }
+        
+        .emi-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .emi-table th {
+            background: #5a67d8;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .emi-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .emi-table tbody tr:hover {
+            background: #f7fafc;
+        }
+        
+        .emi-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .year-summary {
+            background: #e0e7ff !important;
+            font-weight: bold;
+        }
+        
+        .table-controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            background: #f3f4f6;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .view-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-toggle button.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-btn {
+            margin-left: auto;
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .table-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .summary-card h4 {
+            color: #718096;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .summary-card p {
+            color: #2d3748;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .scroll-container {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
         }
         
         @media (max-width: 1200px) {
@@ -439,12 +668,25 @@
 </head>
 <body>
     <div class="container">
-        <h1>Ultimate Home Loan Optimizer</h1>
-        <p class="subtitle">Advanced calculator with tax benefits, prepayment analysis, and wealth projection</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <h1>Ultimate Home Loan Optimizer</h1>
+                <p class="subtitle">Advanced calculator with tax benefits, prepayment analysis, and wealth projection</p>
+            </div>
+            <button class="info-button" onclick="toggleInfoModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>How it Works</span>
+            </button>
+        </div>
         
         <div class="tabs">
             <button class="tab active" onclick="switchTab('basic')">Basic Calculator</button>
             <button class="tab" onclick="switchTab('advanced')">Advanced Features</button>
+            <button class="tab" onclick="switchTab('emibreakdown')">EMI Breakdown</button>
             <button class="tab" onclick="switchTab('comparison')">Scenario Comparison</button>
         </div>
         
@@ -800,6 +1042,73 @@
             </div>
         </div>
         
+        <div id="emibreakdown" class="tab-content">
+            <h3>Detailed EMI & Amortization Schedule</h3>
+            
+            <div class="table-summary">
+                <div class="summary-card">
+                    <h4>Monthly EMI</h4>
+                    <p id="tableSummaryEMI">₹0</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Total Amount Payable</h4>
+                    <p id="tableSummaryTotal">₹0</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Total Interest</h4>
+                    <p id="tableSummaryInterest">₹0</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Loan Tenure</h4>
+                    <p id="tableSummaryTenure">0 years</p>
+                </div>
+            </div>
+            
+            <div class="table-controls">
+                <div class="view-toggle">
+                    <button class="active" onclick="switchTableView('yearly')">Yearly View</button>
+                    <button onclick="switchTableView('monthly')">Monthly View</button>
+                </div>
+                <button class="download-btn" onclick="downloadAmortizationSchedule()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Schedule
+                </button>
+            </div>
+            
+            <div class="scroll-container">
+                <table class="emi-table" id="amortizationTable">
+                    <thead>
+                        <tr id="tableHeaders">
+                            <!-- Headers will be dynamically populated -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Table body will be dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="prepayment-section" style="margin-top: 30px;">
+                <h4>Impact of Prepayments on Schedule</h4>
+                <p>The above schedule shows the standard repayment without prepayments. With your configured prepayments:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Extra EMI payments per year: <strong id="prepaymentExtraEMI">0</strong></li>
+                    <li>Annual prepayment amount: <strong id="prepaymentAnnual">₹0</strong></li>
+                    <li>Effective tenure reduction: <strong id="prepaymentTenureReduction">0 years</strong></li>
+                    <li>Interest savings: <strong id="prepaymentInterestSavings">₹0</strong></li>
+                </ul>
+            </div>
+            
+            <div class="chart-container full-width" style="margin-top: 30px;">
+                <h4>Principal vs Interest Component Over Time</h4>
+                <canvas id="amortizationChart"></canvas>
+            </div>
+        </div>
+        
         <div id="comparison" class="tab-content">
             <h3>Scenario Comparison</h3>
             <table class="comparison-table">
@@ -827,12 +1136,211 @@
         </div>
     </div>
     
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <button class="close-button" onclick="toggleInfoModal()">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="4" x2="4" y2="12"></line>
+                    <line x1="4" y1="4" x2="12" y2="12"></line>
+                </svg>
+            </button>
+            
+            <h2 style="color: #5a67d8; margin-bottom: 30px;">How This Calculator Works - Simple Explanations</h2>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    What is EMI?
+                </h3>
+                <p><strong>EMI (Equated Monthly Installment)</strong> is the fixed amount you pay to the bank every month. It includes both principal (loan amount) and interest.</p>
+                <div class="formula-box">
+                    EMI = [P × R × (1+R)^N] / [(1+R)^N-1]
+                    
+                    Where:
+                    P = Loan amount
+                    R = Monthly interest rate (Annual rate ÷ 12 ÷ 100)
+                    N = Number of months
+                </div>
+                <div class="example-box">
+                    <strong>Example:</strong> For a ₹50 lakh loan at 8.5% for 20 years:
+                    Monthly interest rate = 8.5 ÷ 12 ÷ 100 = 0.00708
+                    EMI = ₹43,391
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    Income and Affordability Rules
+                </h3>
+                <p>Banks use the <strong>"40% Rule"</strong> - your EMI shouldn't exceed 40% of your gross monthly income. But we calculate three scenarios:</p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Conservative (30%):</strong> Leaves more room for savings and emergencies</li>
+                    <li><strong>Moderate (40%):</strong> Standard bank recommendation</li>
+                    <li><strong>Aggressive (50%):</strong> Maximum stretch, higher risk</li>
+                </ul>
+                <div class="tips-box">
+                    <strong>💡 Smart Tip:</strong> Use your post-tax income for realistic planning. If you earn ₹3.5L gross, your take-home is ~₹2.5L after taxes.
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    Tax Benefits Explained
+                </h3>
+                <p>Home loans offer two major tax benefits under the Income Tax Act:</p>
+                <div class="formula-box">
+                    1. Section 80C: Principal repayment up to ₹1.5 lakh/year
+                    2. Section 24B: Interest payment up to ₹2 lakh/year
+                    
+                    Tax Saved = (80C + 24B amounts) × Your Tax Rate
+                </div>
+                <div class="example-box">
+                    <strong>Example:</strong> If you're in 30% tax bracket:
+                    - Principal: ₹1.5L × 30% = ₹45,000 saved
+                    - Interest: ₹2L × 30% = ₹60,000 saved
+                    - Total annual tax savings = ₹1,05,000
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    How Prepayments Work
+                </h3>
+                <p>Prepayments reduce your principal amount, which reduces future interest:</p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Extra EMI:</strong> Pay one or more additional EMIs per year</li>
+                    <li><strong>Lump Sum:</strong> Pay a large amount (like annual bonus) towards principal</li>
+                </ul>
+                <div class="formula-box">
+                    Interest Saved = Original Interest - Interest after prepayment
+                    Tenure Reduction = Original tenure - New tenure
+                </div>
+                <div class="tips-box">
+                    <strong>💡 Best Practice:</strong> Prepay early in the loan tenure for maximum savings. A ₹5 lakh prepayment in year 2 saves more than in year 10.
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    Property Appreciation Logic
+                </h3>
+                <p>Property values typically increase over time. We calculate future value using compound growth:</p>
+                <div class="formula-box">
+                    Future Value = Current Value × (1 + Appreciation Rate)^Years
+                </div>
+                <div class="example-box">
+                    <strong>Example:</strong> ₹2 Cr property with 6% annual appreciation:
+                    - After 10 years: ₹3.58 Cr
+                    - After 20 years: ₹6.41 Cr
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                    Maximum Loan Calculation
+                </h3>
+                <p>Based on your income and EMI capacity, we calculate the maximum loan you can get:</p>
+                <div class="formula-box">
+                    Max Loan = Max EMI × [(1+R)^N - 1] / [R × (1+R)^N]
+                    Max Property Value = Max Loan ÷ (1 - Down Payment %)
+                </div>
+                <div class="example-box">
+                    <strong>Example:</strong> With ₹1.4L max EMI capacity:
+                    - Max loan: ₹2.1 Cr (20 years @ 8.5%)
+                    - Max property: ₹2.62 Cr (with 20% down payment)
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                    Opportunity Cost Analysis
+                </h3>
+                <p>What if you invested the down payment and prepayments in mutual funds instead?</p>
+                <div class="formula-box">
+                    Opportunity Cost = Investment Returns - Interest Saved from Prepayment
+                </div>
+                <div class="tips-box">
+                    <strong>💡 Decision Rule:</strong> If expected investment returns (12-15%) > home loan interest rate (8-9%), consider investing instead of prepaying.
+                </div>
+            </div>
+            
+            <div class="logic-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Rent vs Buy Decision
+                </h3>
+                <p>We calculate if buying makes sense compared to renting:</p>
+                <div class="formula-box">
+                    EMI to Rent Ratio = Monthly EMI ÷ Monthly Rent
+                    
+                    If ratio > 3x: Consider renting
+                    If ratio < 2x: Buying is better
+                </div>
+                <div class="example-box">
+                    <strong>Example:</strong> ₹1.4L EMI vs ₹50K rent = 2.8x ratio
+                    This is borderline - consider other factors like appreciation and stability.
+                </div>
+            </div>
+            
+            <div class="logic-section" style="background: #fef3c7; border-left-color: #f59e0b;">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                    </svg>
+                    Key Recommendations Summary
+                </h3>
+                <ol style="margin-left: 20px;">
+                    <li><strong>EMI Rule:</strong> Keep EMI under 35% of post-tax income for safety</li>
+                    <li><strong>Down Payment:</strong> Pay 20-25% to avoid mortgage insurance</li>
+                    <li><strong>Tenure:</strong> Choose 15-20 years for optimal interest savings</li>
+                    <li><strong>Prepayment:</strong> Use bonuses and windfalls to prepay early</li>
+                    <li><strong>Tax Planning:</strong> Choose old regime if you have high deductions</li>
+                    <li><strong>Emergency Fund:</strong> Keep 6-12 months of EMI as backup</li>
+                    <li><strong>Review Annually:</strong> Check for refinancing opportunities if rates drop</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
         let paymentChart = null;
         let appreciationChart = null;
         let prepaymentChart = null;
         let wealthComparisonChart = null;
+        let amortizationChart = null;
+        let currentTableView = 'yearly';
+        let amortizationData = [];
         
         // Tax calculation functions
         function calculateTax(annualIncome, regime, deductions) {
@@ -1147,6 +1655,9 @@
             updateAppreciationChart(maxPropertyValue, totalPaidToBank, appreciationRate, effectiveTenure);
             updatePrepaymentChart(actualLoanAmount, interestRate, tenure, actualEMI, extraEmiPerYear, annualPrepayment);
             updateComparisonTable();
+            
+            // Generate amortization schedule
+            generateAmortizationSchedule(actualLoanAmount, interestRate, tenure, actualEMI, extraEmiPerYear, annualPrepayment);
         }
         
         function updatePaymentChart(principal, interest, downPayment) {
@@ -1557,6 +2068,290 @@
             updateCalculations();
         }
         
+        function generateAmortizationSchedule(principal, rate, tenure, emi, extraEmiPerYear, annualPrepayment) {
+            const monthlyRate = rate / 12 / 100;
+            const totalMonths = tenure * 12;
+            let balance = principal;
+            amortizationData = [];
+            
+            // Summary data
+            document.getElementById('tableSummaryEMI').textContent = formatCurrency(emi);
+            document.getElementById('tableSummaryTotal').textContent = formatCurrency(emi * totalMonths);
+            document.getElementById('tableSummaryInterest').textContent = formatCurrency((emi * totalMonths) - principal);
+            document.getElementById('tableSummaryTenure').textContent = tenure + ' years';
+            
+            // Generate monthly data
+            for (let month = 1; month <= totalMonths; month++) {
+                const interestComponent = Math.round(balance * monthlyRate);
+                const principalComponent = emi - interestComponent;
+                const remainingBalance = Math.max(0, balance - principalComponent);
+                
+                amortizationData.push({
+                    month: month,
+                    year: Math.ceil(month / 12),
+                    monthInYear: ((month - 1) % 12) + 1,
+                    emi: emi,
+                    principal: principalComponent,
+                    interest: interestComponent,
+                    balance: remainingBalance,
+                    totalPaid: emi * month,
+                    totalPrincipalPaid: principal - remainingBalance,
+                    totalInterestPaid: (emi * month) - (principal - remainingBalance)
+                });
+                
+                balance = remainingBalance;
+                if (balance <= 0) break;
+            }
+            
+            // Update prepayment info
+            document.getElementById('prepaymentExtraEMI').textContent = extraEmiPerYear;
+            document.getElementById('prepaymentAnnual').textContent = formatCurrency(annualPrepayment);
+            
+            const prepaymentResult = calculatePrepaymentImpact(principal, rate, tenure, emi, extraEmiPerYear, annualPrepayment);
+            const tenureReduction = tenure - (prepaymentResult.effectiveMonths / 12);
+            const interestSavings = ((emi * totalMonths) - principal) - prepaymentResult.totalInterest;
+            
+            document.getElementById('prepaymentTenureReduction').textContent = tenureReduction.toFixed(1) + ' years';
+            document.getElementById('prepaymentInterestSavings').textContent = formatCurrency(Math.round(interestSavings));
+            
+            updateAmortizationTable();
+            updateAmortizationChart();
+        }
+        
+        function updateAmortizationTable() {
+            const tableHeaders = document.getElementById('tableHeaders');
+            const tableBody = document.getElementById('tableBody');
+            
+            if (currentTableView === 'yearly') {
+                // Yearly view headers
+                tableHeaders.innerHTML = `
+                    <th>Year</th>
+                    <th>Total EMI Paid</th>
+                    <th>Principal Paid</th>
+                    <th>Interest Paid</th>
+                    <th>Outstanding Balance</th>
+                    <th>Total Paid Till Date</th>
+                `;
+                
+                // Group data by year
+                const yearlyData = {};
+                amortizationData.forEach(row => {
+                    if (!yearlyData[row.year]) {
+                        yearlyData[row.year] = {
+                            totalEmi: 0,
+                            totalPrincipal: 0,
+                            totalInterest: 0,
+                            endBalance: 0,
+                            totalPaidTillDate: 0
+                        };
+                    }
+                    yearlyData[row.year].totalEmi += row.emi;
+                    yearlyData[row.year].totalPrincipal += row.principal;
+                    yearlyData[row.year].totalInterest += row.interest;
+                    yearlyData[row.year].endBalance = row.balance;
+                    yearlyData[row.year].totalPaidTillDate = row.totalPaid;
+                });
+                
+                // Populate yearly table
+                tableBody.innerHTML = '';
+                Object.keys(yearlyData).forEach(year => {
+                    const data = yearlyData[year];
+                    const row = tableBody.insertRow();
+                    row.className = 'year-summary';
+                    row.innerHTML = `
+                        <td>Year ${year}</td>
+                        <td>${formatCurrency(data.totalEmi)}</td>
+                        <td>${formatCurrency(Math.round(data.totalPrincipal))}</td>
+                        <td>${formatCurrency(data.totalInterest)}</td>
+                        <td>${formatCurrency(Math.round(data.endBalance))}</td>
+                        <td>${formatCurrency(data.totalPaidTillDate)}</td>
+                    `;
+                });
+            } else {
+                // Monthly view headers
+                tableHeaders.innerHTML = `
+                    <th>Month</th>
+                    <th>EMI</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Balance</th>
+                    <th>% Principal</th>
+                    <th>% Interest</th>
+                `;
+                
+                // Populate monthly table
+                tableBody.innerHTML = '';
+                amortizationData.forEach((row, index) => {
+                    const principalPercent = ((row.principal / row.emi) * 100).toFixed(1);
+                    const interestPercent = ((row.interest / row.emi) * 100).toFixed(1);
+                    
+                    const tr = tableBody.insertRow();
+                    if (row.monthInYear === 1) {
+                        tr.className = 'year-summary';
+                    }
+                    tr.innerHTML = `
+                        <td>${row.monthInYear === 1 ? `Year ${row.year} - ` : ''}Month ${row.month}</td>
+                        <td>${formatCurrency(row.emi)}</td>
+                        <td>${formatCurrency(Math.round(row.principal))}</td>
+                        <td>${formatCurrency(row.interest)}</td>
+                        <td>${formatCurrency(Math.round(row.balance))}</td>
+                        <td>${principalPercent}%</td>
+                        <td>${interestPercent}%</td>
+                    `;
+                });
+            }
+        }
+        
+        function updateAmortizationChart() {
+            const ctx = document.getElementById('amortizationChart');
+            if (!ctx) return;
+            
+            if (amortizationChart) {
+                amortizationChart.destroy();
+            }
+            
+            // Prepare data for chart (yearly view)
+            const years = [];
+            const principalData = [];
+            const interestData = [];
+            
+            const yearlyData = {};
+            amortizationData.forEach(row => {
+                if (!yearlyData[row.year]) {
+                    yearlyData[row.year] = {
+                        principal: 0,
+                        interest: 0
+                    };
+                }
+                yearlyData[row.year].principal += row.principal;
+                yearlyData[row.year].interest += row.interest;
+            });
+            
+            Object.keys(yearlyData).forEach(year => {
+                years.push(`Year ${year}`);
+                principalData.push(Math.round(yearlyData[year].principal));
+                interestData.push(yearlyData[year].interest);
+            });
+            
+            amortizationChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Principal',
+                        data: principalData,
+                        backgroundColor: '#48bb78',
+                        stack: 'Stack 0'
+                    }, {
+                        label: 'Interest',
+                        data: interestData,
+                        backgroundColor: '#e53e3e',
+                        stack: 'Stack 0'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Years'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Amount (₹)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function switchTableView(view) {
+            currentTableView = view;
+            document.querySelectorAll('.view-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            updateAmortizationTable();
+        }
+        
+        function downloadAmortizationSchedule() {
+            // Create CSV content
+            let csv = 'Amortization Schedule\n\n';
+            csv += `Loan Amount,${formatCurrency(parseInt(document.getElementById('recommendedLoan').textContent.replace(/[^0-9]/g, '')))}\n`;
+            csv += `Interest Rate,${document.getElementById('interestRate').value}%\n`;
+            csv += `Tenure,${document.getElementById('tenureSlider').value} years\n`;
+            csv += `Monthly EMI,${document.getElementById('tableSummaryEMI').textContent}\n\n`;
+            
+            if (currentTableView === 'yearly') {
+                csv += 'Year,Total EMI Paid,Principal Paid,Interest Paid,Outstanding Balance,Total Paid Till Date\n';
+                
+                const yearlyData = {};
+                amortizationData.forEach(row => {
+                    if (!yearlyData[row.year]) {
+                        yearlyData[row.year] = {
+                            totalEmi: 0,
+                            totalPrincipal: 0,
+                            totalInterest: 0,
+                            endBalance: 0,
+                            totalPaidTillDate: 0
+                        };
+                    }
+                    yearlyData[row.year].totalEmi += row.emi;
+                    yearlyData[row.year].totalPrincipal += row.principal;
+                    yearlyData[row.year].totalInterest += row.interest;
+                    yearlyData[row.year].endBalance = row.balance;
+                    yearlyData[row.year].totalPaidTillDate = row.totalPaid;
+                });
+                
+                Object.keys(yearlyData).forEach(year => {
+                    const data = yearlyData[year];
+                    csv += `${year},${data.totalEmi},${Math.round(data.totalPrincipal)},${data.totalInterest},${Math.round(data.endBalance)},${data.totalPaidTillDate}\n`;
+                });
+            } else {
+                csv += 'Month,EMI,Principal,Interest,Balance,Principal %,Interest %\n';
+                amortizationData.forEach(row => {
+                    const principalPercent = ((row.principal / row.emi) * 100).toFixed(1);
+                    const interestPercent = ((row.interest / row.emi) * 100).toFixed(1);
+                    csv += `${row.month},${row.emi},${Math.round(row.principal)},${row.interest},${Math.round(row.balance)},${principalPercent}%,${interestPercent}%\n`;
+                });
+            }
+            
+            // Download file
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'loan_amortization_schedule.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
         function switchTab(tabName) {
             // Remove active class from all tabs and contents
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -1569,6 +2364,12 @@
             // Update comparison table if switching to comparison tab
             if (tabName === 'comparison') {
                 updateComparisonTable();
+            }
+            
+            // Update amortization table if switching to EMI breakdown tab
+            if (tabName === 'emibreakdown') {
+                updateAmortizationTable();
+                updateAmortizationChart();
             }
         }
         
@@ -1587,6 +2388,32 @@
         document.getElementById('investmentReturn').addEventListener('input', updateCalculations);
         document.getElementById('pricePerSqft').addEventListener('input', updateCalculations);
         document.getElementById('rentalYield').addEventListener('input', updateCalculations);
+        
+        function toggleInfoModal() {
+            const modal = document.getElementById('infoModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+            if (modal.style.display === 'block') {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function closeModalOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                toggleInfoModal();
+            }
+        }
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('infoModal');
+                if (modal.style.display === 'block') {
+                    toggleInfoModal();
+                }
+            }
+        });
         
         // Initial calculation
         updateCalculations();
