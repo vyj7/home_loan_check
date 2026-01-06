@@ -17,14 +17,3 @@ spec:
   owner: platform-team # Update with your team name
   system: financial-services # Update with your system name
   domain: finance # Update with your domain name
-
----
-apiVersion: backstage.io/v1alpha1
-kind: Location
-metadata:
-  name: home-loan-check-location
-  description: Location reference for home-loan-check component
-spec:
-  type: url
-  targets:
-    - ./catalog-info.yaml
