@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: home-loan-check
+  title: Home Loan Check
+  description: Check home loan against some factor to enhance decision making
+  tags:
+    - web
+    - financial
+    - loan-analysis
+    - calculator
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: # Add your GitHub org/repo here if applicable
+    backstage.io/view-url: # Add your deployed URL here
+    backstage.io/edit-url: # Add your source code URL here
+spec:
+  type: website
+  lifecycle: production
+  owner: platform-team # Update with your team name
+  system: financial-services # Update with your system name
+  domain: finance # Update with your domain name
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: home-loan-check-location
+  description: Location reference for home-loan-check component
+spec:
+  type: url
+  targets:
+    - ./catalog-info.yaml
