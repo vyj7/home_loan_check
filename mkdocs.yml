@@ -1,0 +1,9 @@
+site_name: Home Loan Check
+site_description: Documentation for Home Loan Check service
+
+nav:
+  - Home: index.md
+  - Backstage Integration: backstage.md
+
+plugins:
+  - techdocs-core
