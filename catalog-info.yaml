@@ -11,9 +11,6 @@ metadata:
     - calculator
   annotations:
     backstage.io/techdocs-ref: dir:.
-    github.com/project-slug: # Add your GitHub org/repo here if applicable
-    backstage.io/view-url: # Add your deployed URL here
-    backstage.io/edit-url: # Add your source code URL here
 spec:
   type: website
   lifecycle: production
